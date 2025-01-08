@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+
+# If you are using the SQLite database:
+db.sqlite3
+db.sqlite3-journal
+
+# Media and static files
+/media/
+/staticfiles/
+
+# Django secret key file
+.env
+*.env
+
+# Node.js build artifacts (if applicable)
+node_modules/
+build/
+dist/
+
+# Editor/IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Python packaging
+*.egg
+*.egg-info/
+dist/
+build/
+*.wheel
+
+# Virtual environments
+venv/
+env/
+ENV/
+venv.bak/
+.virtualenv/
