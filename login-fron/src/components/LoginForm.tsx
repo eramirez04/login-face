@@ -1,6 +1,8 @@
 import { ChangeEvent, useState, FormEvent } from "react";
 import { useAuth } from "../context/AutContext";
 import { LoginNormal } from "../interface/loginInterface";
+import { Link } from "react-router-dom";
+
 
 export const LoginForm = () => {
   const [data, setData] = useState<LoginNormal>({
@@ -81,9 +83,9 @@ export const LoginForm = () => {
         <div className="text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <a href="#" className="text-blue-500 hover:text-blue-700">
-              Sign up
-            </a>
+            <Link to="/register" className="text-blue-500 hover:text-blue-700">
+              Crear Cuenta
+            </Link>
           </p>
         </div>
       </form>
