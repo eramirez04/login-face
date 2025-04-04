@@ -8,7 +8,8 @@ interface LoginLayoutType {
 export const LoginLayout: FC<LoginLayoutType> = ({ children }) => {
   return (
     <>
-      <NavBar /> {children}
-    </>
+      <NavBar />
+        <main>{children}</main>
+      </>
   );
 };

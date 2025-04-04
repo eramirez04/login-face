@@ -4,7 +4,7 @@ export const LoginFace = () => {
   const [iniciarGrabacion, setIniciar] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<null | MediaStream>(null);
-  const [videoSource, setVideoSource] = useState<string>("");
+  const videoSource: string = "";
 
   /*   useEffect(() => { */
   const prepararStrem = async () => {
@@ -41,9 +41,9 @@ export const LoginFace = () => {
     await getStream();
   };
 
-  const tomarFoto = () => {
+  /* const tomarFoto = () => {
     return;
-  };
+  }; */
 
   useEffect(() => {
     return () => {

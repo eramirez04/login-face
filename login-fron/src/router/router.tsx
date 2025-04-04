@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import { LoginPage, HomePage, RegisterUserPage } from "../index";
+import {ProductosPage} from "../pages/productos/ProductosPage.tsx";
+import {GetProducto} from "../pages/productos/GetProducto.tsx";
 
 export enum TipoLayout {
   LOGIN_LAYOUT = "loginLayout",
@@ -22,7 +24,7 @@ export const routes: RouterType[] = [
   {
     path: "/",
     element: <HomePage />,
-    useLayout: TipoLayout.HOME_LAYOUT,
+    useLayout: TipoLayout.LOGIN_LAYOUT,
   },
 
   {
@@ -30,4 +32,14 @@ export const routes: RouterType[] = [
     element: <RegisterUserPage />,
     useLayout: TipoLayout.LOGIN_LAYOUT,
   },
+  {
+    path: "/productos",
+    element:<ProductosPage /> ,
+    useLayout: TipoLayout.LOGIN_LAYOUT
+  },
+  {
+    path: "/producto/:id",
+    element: <GetProducto />,
+    useLayout: TipoLayout.LOGIN_LAYOUT
+  }
 ];

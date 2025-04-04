@@ -6,7 +6,6 @@ interface HomeLayoutType {
 
 export const HomeLayout: FC<HomeLayoutType> = ({ children }) => {
   return <>
-  
-  
+    {children}
   </>;
 };
