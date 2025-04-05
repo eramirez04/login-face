@@ -1,0 +1,14 @@
+
+
+
+export const Modal = () => {
+
+
+
+    return (
+        <>
+
+
+        </>
+    )
+}

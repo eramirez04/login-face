@@ -1,5 +1,6 @@
 import { FormEvent, ChangeEvent, useState } from "react";
 import { CreateUserType } from "../interface/userType";
+import {Button, Input} from "@heroui/react";
 
 export const RegisterUserForm = () => {
   const [formData, setFormData] = useState<CreateUserType>({
@@ -31,130 +32,103 @@ export const RegisterUserForm = () => {
     setFormData((prev) => ({ ...prev, imagen }));
   };
 
-  const handleonSumbit = (e: FormEvent): void => {
+  const handleonSubmit = (e: FormEvent): void => {
     e.preventDefault();
     console.log("Submitted Data:", formData);
   };
 
   return (
     <form
-      onSubmit={handleonSumbit}
-      className="space-y-6 bg-white shadow-lg p-6 rounded-lg w-3/5"
+      onSubmit={handleonSubmit}
+      className="space-y-5 bg-white shadow-lg p-6 rounded-lg w-3/5"
     >
       <h2 className="text-xl font-bold text-gray-700">Registro de Usuario</h2>
 
       {/* Campo: Nombre */}
       <div className="relative">
-        <input
+        <Input
+            variant="underlined"
           type="text"
           name="first_name"
           onChange={handleonChange}
           id="floating_first_name"
-          className="peer block w-full px-4 py-3 text-lg text-gray-700 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
           placeholder=" "
           required
+          label="nombre"
         />
-        <label
-          htmlFor="floating_first_name"
-          className="absolute left-4 top-0 text-gray-500 text-lg peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500 transform -translate-y-6 scale-75 duration-200"
-        >
-          Nombre
-        </label>
       </div>
 
       {/* Campo: Apellido */}
       <div className="relative">
-        <input
+        <Input
+            variant="underlined"
           type="text"
+            label="Apellido"
           name="last_name"
           onChange={handleonChange}
           id="floating_last_name"
-          className="peer block w-full px-4 py-3 text-lg text-gray-700 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-          placeholder=" "
+            placeholder=" "
           required
         />
-        <label
-          htmlFor="floating_last_name"
-          className="absolute left-4 top-0 text-gray-500 text-lg peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500 transform -translate-y-6 scale-75 duration-200"
-        >
-          Apellido
-        </label>
       </div>
 
       {/* Campo: Edad */}
       <div className="relative">
-        <input
+        <Input
+            label="Edad"
+            variant="underlined"
           type="number"
           name="edad"
           onChange={handleonChange}
           id="floating_edad"
-          className="peer block w-full px-4 py-3 text-lg text-gray-700 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-          placeholder=" "
+         placeholder=" "
           required
         />
-        <label
-          htmlFor="floating_edad"
-          className="absolute left-4 top-0 text-gray-500 text-lg peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500 transform -translate-y-6 scale-75 duration-200"
-        >
-          Edad
-        </label>
+
       </div>
 
       {/* Campo: Correo Electrónico */}
       <div className="relative">
-        <input
+        <Input
+            variant="underlined"
           type="email"
           name="email"
           onChange={handleonChange}
           id="floating_email"
-          className="peer block w-full px-4 py-3 text-lg text-gray-700 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-          placeholder=" "
+            placeholder=" "
           required
+            label="Correo electronico"
         />
-        <label
-          htmlFor="floating_email"
-          className="absolute left-4 top-0 text-gray-500 text-lg peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500 transform -translate-y-6 scale-75 duration-200"
-        >
-          Correo Electrónico
-        </label>
+
       </div>
 
       {/* Campo: Nombre de Usuario */}
       <div className="relative">
-        <input
+        <Input
+            variant="underlined"
           type="text"
           name="username"
           onChange={handleonChange}
           id="floating_username"
-          className="peer block w-full px-4 py-3 text-lg text-gray-700 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-          placeholder=" "
+            placeholder=" "
           required
+            label="Nombre"
         />
-        <label
-          htmlFor="floating_username"
-          className="absolute left-4 top-0 text-gray-500 text-lg peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500 transform -translate-y-6 scale-75 duration-200"
-        >
-          Nombre de Usuario
-        </label>
+
       </div>
 
       {/* Campo: Contraseña */}
       <div className="relative">
-        <input
+        <Input
+            variant="underlined"
           type="password"
           name="password"
           onChange={handleonChange}
           id="floating_password"
-          className="peer block w-full px-4 py-3 text-lg text-gray-700 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
           placeholder=" "
           required
+            label="Contraseña"
         />
-        <label
-          htmlFor="floating_password"
-          className="absolute left-4 top-0 text-gray-500 text-lg peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:text-blue-500 transform -translate-y-6 scale-75 duration-200"
-        >
-          Contraseña
-        </label>
       </div>
 
       {/* Campo: Imagen */}
@@ -171,12 +145,13 @@ export const RegisterUserForm = () => {
         />
       </div>
 
-      <button
-        type="submit"
-        className="w-full py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
+      <Button
+          type="submit"
+          className="w-full py-3 text-white"
+          color="primary"
       >
         Registrar
-      </button>
+      </Button>
     </form>
   );
 };
