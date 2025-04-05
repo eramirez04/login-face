@@ -20,8 +20,11 @@ export class UserService {
     return this.userRepository.save(userCreate);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  public async findAll(): Promise<User[]> {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.username', 'user.email', 'user.last_name'])
+      .getMany();
   }
 
   public async findOne(id: number) {

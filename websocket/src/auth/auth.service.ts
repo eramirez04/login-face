@@ -48,7 +48,7 @@ export class AuthService implements AuthServicesignIn {
     return {
       access_token: tocken,
       email: user.email,
-      user: user.nombre,
+      user: user.username,
     };
   }
 }

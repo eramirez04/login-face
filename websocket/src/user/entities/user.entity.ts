@@ -9,17 +9,37 @@ import {
 
 import { Mensajes } from 'src/chat/entities/chat.entity';
 
-@Entity('user')
+@Entity('user_user')
 export class User {
   @PrimaryGeneratedColumn()
   public id: number;
 
   @Column()
-  public nombre: string;
+  public first_name: string;
+
   @Column()
-  public apellido: string;
+  public last_name: string;
+
+  @Column()
+  public is_staff: boolean;
+
+  @Column()
+  public is_active: boolean;
+
+  @Column()
+  public edad: number;
+
+  @Column()
+  public fecha_registro: string;
+
   @Column()
   public email: string;
+
+  @Column()
+  public is_superuser: boolean;
+
+  @Column()
+  public username: string;
 
   @Column()
   public password: string;

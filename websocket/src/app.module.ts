@@ -12,7 +12,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // importamos para redis
 import { RedisModuls } from './redis/redis.module';
 import { JuegosModule } from './juegos/juegos.module';
-import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -27,7 +26,7 @@ import { RolesModule } from './roles/roles.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
 
     ChatModule,
@@ -39,8 +38,6 @@ import { RolesModule } from './roles/roles.module';
     RedisModuls,
 
     JuegosModule,
-
-    RolesModule,
   ],
   controllers: [],
   providers: [],
