@@ -1,18 +1,21 @@
 import { ChangeEvent, useState, FormEvent } from "react";
-import { useAuth } from "../context/AutContext";
 import { LoginNormal } from "../interface/loginInterface";
 import { Link } from "react-router-dom";
 import {Button, Input} from "@heroui/react";
-
+import {useLogin} from "../hooks/auth/useAuth.ts";
+import {Eye} from "lucide-react";
 
 
 export const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [data, setData] = useState<LoginNormal>({
     email: "",
     password: "",
   });
 
-  const { login } = useAuth();
+
+  const { mutate:login, isPending } = useLogin();
+
 
   const handleonChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,7 +26,8 @@ export const LoginForm = () => {
     });
   };
 
-  const handleonSumbit = (event: FormEvent) => {
+
+  const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     login(data);
@@ -32,7 +36,7 @@ export const LoginForm = () => {
   return (
     <>
       <form
-        onSubmit={handleonSumbit}
+        onSubmit={handleOnSubmit}
         className="bg-gray-50 p-10 rounded-xl border w-full max-w-lg mx-auto mt-12 space-y-6"
       >
         <h2 className="text-2xl font-semibold text-center text-gray-700">
@@ -56,7 +60,10 @@ export const LoginForm = () => {
 
         <div className="relative w-full">
           <Input
-            type="password"
+              endContent={
+                <Eye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer"/>
+              }
+            type={showPassword ? "text" : "password"}
             name="password"
             onChange={handleonChange}
             id="floating_password"
@@ -71,6 +78,7 @@ export const LoginForm = () => {
           type="submit"
           color="primary"
           className="w-full py-3 text-white rounded-md font-semibold"
+          isLoading={isPending}
         >
          Log In
         </Button>

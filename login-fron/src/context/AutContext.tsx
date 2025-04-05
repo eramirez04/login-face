@@ -1,40 +1,59 @@
-import { createContext, FC, ReactNode, useContext, useState } from "react";
-import { LoginNormal } from "../interface/loginInterface";
+import {createContext, ReactNode, useEffect, useState} from "react";
+import {LoginResponse} from "../hooks/auth/useAuth.ts";
+import {CreateUserType} from "../interface/userType.ts";
+import Cookies from  "js-cookie";
+import {queryClient} from "../config/queryClient.ts";
 
-interface AuthContextType {
-  login: (data: LoginNormal) => void;
+
+export interface AuthContextType {
   logout: () => void;
-  readonly user: string;
+  readonly user: CreateUserType | null;
+  setUser: (user: CreateUserType | null) => void;
+  setToken: (token: LoginResponse | null) => void;
+  token: LoginResponse | null
+}
+
+interface Props {
+  children: ReactNode;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthContextProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [user, setUser] = useState<string>("");
+export const AuthContextProvider = ({children}: Props) => {
+  const [user, setUser] = useState<CreateUserType | null>(null);
+  const [token, setToken] = useState<LoginResponse | null>(null);
 
-  const getDataUser = () => {
-    setUser("hola");
+
+
+  useEffect(() => {
+    if(token && !user){
+
+      const expirationDate = new Date();
+      const expirationTime = 25800;
+      expirationDate.setSeconds(expirationDate.getSeconds() + expirationTime);
+      Cookies.set("auth", JSON.stringify(token), { expires: expirationDate, secure: false });
+
+    }
+  }, [token, user]);
+
+
+  useEffect(() => {
+    const cookieData = Cookies.get("auth");
+
+    if(cookieData){
+      setToken(JSON.parse(cookieData));
+    }
+  }, []);
+
+  const logout = async () => {
+    await queryClient.invalidateQueries({ queryKey: ["userLogged"] });
+    Cookies.remove("auth");
+    setUser(null);
+    setToken(null);
   };
 
-  const login = (data: LoginNormal) => {
-    const { email, password } = data;
-    console.log(email, password);
-  };
-
-  const logout = () => {};
-
-  const value: AuthContextType = { login, user, logout };
+  const value: AuthContextType = {  user, logout, setUser, setToken, token };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
 
-  if (!context) {
-    throw new Error("deve usarse dentro del proveedor");
-  }
-
-  return context;
-};
