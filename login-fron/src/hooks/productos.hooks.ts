@@ -9,9 +9,6 @@ export interface Product {
     url: string;
 }
 
-
-
-
 export const useProductos = () => {
     return useQuery({
         queryKey: ["producto"],
@@ -29,7 +26,6 @@ export const useProductoId = (id: string) =>{
         queryKey: ["productoId"],
         queryFn: async (): Promise<Product> => {
             const { data } = await axiosConfig.get<Product>(`product/${id}`);
-            console.log(data);
             return data as Product;
         },
         enabled: !!id,

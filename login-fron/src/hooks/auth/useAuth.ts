@@ -3,9 +3,9 @@ import {AuthContext, AuthContextType} from "../../context/AutContext.tsx";
 import {useAxiosConfigAuth} from "../../config/axiosConfig.ts";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {useModal} from "../../context/ModalContext.tsx";
-import {CreateUserType} from "../../interface/userType.ts";
+import { User} from "../../interface/userType.ts";
 import {queryClient} from "../../config/queryClient.ts";
-
+import {useNavigate} from "react-router-dom";
 
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
@@ -30,7 +30,7 @@ export interface LoginResponse {
 export  const useLogin = () => {
     const { setToken } = useAuth();
     const { onClose } = useModal();
-
+    const navigate = useNavigate();
 
     const axios = useAxiosConfigAuth();
 
@@ -44,6 +44,7 @@ export  const useLogin = () => {
             onClose();
             // Forzar refetch de los datos del usuario
             await queryClient.invalidateQueries({ queryKey: ["userLogged"] });
+            navigate("/")
         },
         onError: (error) => {
             console.log(error);
@@ -59,9 +60,9 @@ export const useMe = () => {
 
     return useQuery({
         queryKey: ["userLogged"],
-        queryFn: async ():Promise<CreateUserType | undefined> => {
+        queryFn: async ():Promise<User | undefined> => {
             if (!token) return;
-            const { data } = await axios.get<CreateUserType>("user/me/");
+            const { data } = await axios.get<User>("user/me/");
             setUser(data)
             return data
         },

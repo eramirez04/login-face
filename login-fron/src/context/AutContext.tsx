@@ -1,14 +1,14 @@
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {LoginResponse} from "../hooks/auth/useAuth.ts";
-import {CreateUserType} from "../interface/userType.ts";
+import {User} from "../interface/userType.ts";
 import Cookies from  "js-cookie";
 import {queryClient} from "../config/queryClient.ts";
 
 
 export interface AuthContextType {
   logout: () => void;
-  readonly user: CreateUserType | null;
-  setUser: (user: CreateUserType | null) => void;
+  readonly user: User | null;
+  setUser: (user: User | null) => void;
   setToken: (token: LoginResponse | null) => void;
   token: LoginResponse | null
 }
@@ -20,9 +20,8 @@ interface Props {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthContextProvider = ({children}: Props) => {
-  const [user, setUser] = useState<CreateUserType | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<LoginResponse | null>(null);
-
 
 
   useEffect(() => {

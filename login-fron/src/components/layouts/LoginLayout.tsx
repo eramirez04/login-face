@@ -4,6 +4,7 @@ import {Button, Modal, ModalBody, ModalContent, ModalHeader, Dropdown, DropdownI
 import {LoginForm} from "../LoginForm.tsx";
 import {useAuth, useMe} from "../../hooks/auth/useAuth.ts";
 import {useModal} from "../../context/ModalContext.tsx";
+import { Link } from "react-router-dom"
 
 interface LoginLayoutType {
   children: ReactNode;
@@ -48,7 +49,10 @@ export const LoginLayout: FC<LoginLayoutType> = ({ children }) => {
                                 <p className="font-bold">@{userLogueado?.username}</p>
                             </DropdownItem>
                             <DropdownItem key="settings">My Settings</DropdownItem>
-                            <DropdownItem key="team_settings">Team Settings</DropdownItem>
+                            <DropdownItem key="team_settings">
+
+                                <Link to="/ofrecerproducto">Ofrecer mi producto</Link>
+                            </DropdownItem>
                             <DropdownItem key="configurations">Configurations</DropdownItem>
                             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
                             <DropdownItem key="logout" color="danger" onPress={handleLogout}>
@@ -60,7 +64,7 @@ export const LoginLayout: FC<LoginLayoutType> = ({ children }) => {
 
                 </div>
             </NavBar>
-            <main>{children}</main>
+            <main className="pl-48 pr-48">{children}</main>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onClose} backdrop="blur" >
                 <ModalContent>
                     <>

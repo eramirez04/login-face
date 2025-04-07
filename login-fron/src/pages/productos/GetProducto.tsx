@@ -2,13 +2,10 @@ import {useParams} from "react-router-dom";
 import {useProductoId} from "../../hooks/productos.hooks.ts";
 import {useEffect} from "react";
 import {AddComentario} from "../../components/AddComentario.tsx";
-
-
+import {Button} from "@heroui/react";
 
 // nuevo hook para socket
 import {useClientSocket} from "../../hooks/websocket/useWebSocket.socket.io.ts";
-
-
 
 export const GetProducto = () => {
     const {id} = useParams();
@@ -27,12 +24,10 @@ export const GetProducto = () => {
 
     }, [id, on, productoData?.id, refetch, sendEvent]);
 
-
     const handleSubmit = async (stockProduct: number) => {
         if(stockProduct <= 0)return alert("No hay suficiente stock del producto");
         sendEvent("cambiarStock", { productId: Number(productoData?.id), stock: 1 });
     }
-
 
     if(isLoading) return <>Cargando..</>
 
@@ -73,21 +68,25 @@ export const GetProducto = () => {
                             </div>
 
                             {/* Botón de compra */}
-                            <button
-                                onClick={() => handleSubmit(Number(productoData?.stock))}
-                                className={`w-full py-4 rounded-lg text-white font-bold uppercase tracking-wider transition-all duration-300 ${
-                                    Number(productoData?.stock) > 0
-                                        ? "bg-blue-600 hover:bg-blue-700 active:scale-95"
-                                        : "bg-gray-400 cursor-not-allowed"
-                                }`}
-                                disabled={productoData?.stock === 0}
-                            >
-                                {Number(productoData?.stock) > 0 ? "Camprar" : "Agotado"}
-                            </button>
+                            <div className="flex items-center justify-between gap-x-3">
+                                <Button
+                                    onPress={() => handleSubmit(Number(productoData?.stock))}
+                                    className={`w-10/12  text-white font-bold uppercase ${
+                                        Number(productoData?.stock) > 0
+                                            ? "bg-blue-600 hover:bg-blue-700 active:scale-95"
+                                            : "bg-gray-400 cursor-not-allowed"
+                                    }`}
+                                    disabled={productoData?.stock === 0}
+                                >
+                                    {Number(productoData?.stock) > 0 ? "Comprar" : "Agotado"}
+                                </Button>
+                                <Button color="success" className="text-white font-bold uppercase">Agregar al carrito</Button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+             productos relacionados
             <AddComentario id={Number(productoData?.id)} />
         </>
     );
