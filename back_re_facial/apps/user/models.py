@@ -20,5 +20,5 @@ class User(AbstractUser):
     ordering = ['-fecha_registro']
 
 ## "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNzc4Mjc5MiwiaWF0IjoxNzM3MTc3OTkyLCJqdGkiOiI5ZjQ2YTAxM2RkYzc0NzMxOTY5M2FiMjAzYWM2NWY0ZSIsInVzZXJfaWQiOjJ9.Zh5A3bLXMd54aCfXXeQruliyMUPqdlUnBNWUWHURQFM",
- ##   "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MjY0MzkyLCJpYXQiOjE3MzcxNzc5OTIsImp0aSI6ImE5OWJlNmQwMTliYjQ2OGZiZDRiZDliZWRiYjcwZjQxIiwidXNlcl9pZCI6Mn0.QvN_LRUcLoA0Tosmg5YUZ20QlsBP-kcDN3WSgTc49z4"
+##   "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MjY0MzkyLCJpYXQiOjE3MzcxNzc5OTIsImp0aSI6ImE5OWJlNmQwMTliYjQ2OGZiZDRiZDliZWRiYjcwZjQxIiwidXNlcl9pZCI6Mn0.QvN_LRUcLoA0Tosmg5YUZ20QlsBP-kcDN3WSgTc49z4"
 ####

@@ -18,10 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-""" importamos las rutas """
-from apps.posts.api.router import post_router
-
-
 
 """ documentacion  """
 from django.urls import re_path
@@ -46,7 +42,6 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(post_router.urls)),
     path('api/', include('apps.user.api.router')),
     
     

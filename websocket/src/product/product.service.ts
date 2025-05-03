@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { RedisService } from 'src/redis/redis.service';
 import Redis from 'ioredis';
+import { GetProductDTO } from './dto/get-products.dto';
 
 @Injectable()
 export class ProductService {
@@ -50,8 +51,36 @@ export class ProductService {
     return producto;
   }
 
-  public async findAll(): Promise<Array<Product>> {
-    return await this.productRepository.find();
+  public async findAll(query: GetProductDTO) {
+    const { page, limit, ...filters } = query;
+
+    return await this.applyFilters(filters, Number(page), limit);
+  }
+
+  private async applyFilters(
+    filters: Partial<GetProductDTO>,
+    page: number,
+    limit: number,
+  ) {
+    const queryBuilder = this.productRepository.createQueryBuilder('product');
+
+    if (filters.search)
+      queryBuilder.andWhere('product.nombre ILIKE :search', {
+        search: `%${filters.search}%`,
+      });
+    if (filters.category)
+      queryBuilder.andWhere('product.category = :category', {
+        category: filters.category,
+      });
+    if (filters.brand)
+      queryBuilder.andWhere('product.brand = :brand', { brand: filters.brand });
+
+    const [data, total] = await queryBuilder
+      .take(limit)
+      .skip((page - 1) * limit)
+      .orderBy('product.created_at', 'DESC')
+      .getManyAndCount();
+    return { data, total, page, totalPages: Math.ceil(total / limit) };
   }
 
   public async updateStock(

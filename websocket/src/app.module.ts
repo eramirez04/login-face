@@ -12,6 +12,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // importamos para redis
 import { RedisModuls } from './redis/redis.module';
 import { JuegosModule } from './juegos/juegos.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RateLimitGuard } from './auth/guard/rateLimit.guard';
 
 @Module({
   imports: [
@@ -40,7 +42,12 @@ import { JuegosModule } from './juegos/juegos.module';
     JuegosModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RateLimitGuard,
+    },
+  ],
 })
 export class AppModule {}
 /*  synchronize: process.env.DB_SYNCHRONIZE === 'true', */

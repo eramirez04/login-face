@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+*.venv
+
+# Django-specific files
+*.log
+local_settings.py
+/db.sqlite3
+/db.sqlite3-journal
+media/
+
+# Ignore environment variables and secret keys
+.env
+.env.*
+config/settings/local.py
+config/.env
+
+# Ignore migrations (optional, if using them in source control remove this)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+
+# Ignore static and media files
+staticfiles/
+media/
+
+# VSCode settings (if using VSCode)
+.vscode/
+
+# PyCharm settings (if using PyCharm)
+.idea/
+
+# MacOS and Linux system files
+.DS_Store
+*.swp

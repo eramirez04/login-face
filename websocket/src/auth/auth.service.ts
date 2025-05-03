@@ -39,8 +39,8 @@ export class AuthService implements AuthServicesignIn {
     };
 
     const jwtOptions: JwtSignOptions = {
-      secret: 'esta_esta_secreta',
-      expiresIn: '2h',
+      secret: process.env.SECRET_KEY_JWT,
+      expiresIn: process.env.EXPIRESIN,
     };
 
     const tocken = await this.jwtService.signAsync(payload, jwtOptions);

@@ -4,16 +4,15 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-
 // modulo nativo de express
 import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  public canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  public constructor(private jwtService: JwtService) {}
+
+  public canActivate(context: ExecutionContext): boolean | Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
     // extraemos el tocken del header
@@ -24,8 +23,12 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      if (tocken === 'hola') {
-      }
+      const decode = this.jwtService.verify(tocken, {
+        secret: process.env.SECRET_KEY_JWT,
+        algorithms: ['HS256'],
+      });
+
+      request.user = decode;
     } catch {
       throw new UnauthorizedException('Token no valido');
     }

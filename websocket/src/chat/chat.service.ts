@@ -46,24 +46,37 @@ export class ChatService {
   }
 
   public async getMessages(idProduct: number): Promise<Mensajes[]> {
-    /* return await this.mensajesRepository.find({
-      where: { producto: { id: idProduct } },
-      select: ['id', 'mensaje', 'producto', 'user'],
-    }); */
-
     return await this.mensajesRepository
       .createQueryBuilder('mensajes')
       .leftJoinAndSelect('mensajes.user', 'user')
+      .innerJoinAndSelect('mensajes.producto', 'producto') // Asegura la relación con producto
       .select([
         'mensajes.id',
         'mensajes.mensaje',
         'mensajes.created_at',
         'user.id',
-        'user.nombre',
-        'user.apellido',
+        'user.username',
         'user.email',
       ])
+      .where('producto.id = :idProduct', { idProduct }) // Filtra correctamente por producto.id
       .getMany();
+  }
+
+  public async findMessageById(idMensaje: number) {
+    return await this.mensajesRepository
+      .createQueryBuilder('mensajes')
+      .leftJoinAndSelect('mensajes.user', 'user')
+      .innerJoinAndSelect('mensajes.producto', 'producto') // Asegura la relación con producto
+      .select([
+        'mensajes.id',
+        'mensajes.mensaje',
+        'mensajes.created_at',
+        'user.id',
+        'user.username',
+        'user.email',
+      ])
+      .where('mensajes.id = :idMensaje', { idMensaje }) // Filtra correctamente por producto.id
+      .getOne();
   }
 
   public async subscribirToProducto(
@@ -84,16 +97,19 @@ export class ChatService {
   }
 
   // este notifica a los clientes de nuevos mensajes
-  public async notificar(producto: string, mensaje: object) {
+  public async notificar(producto: string, mensaje: Mensajes) {
     const clienteIds: Array<string> = await this.redisCliente.smembers(
       `sala:${producto}:producto`,
     );
+
+    // obtenemos el mensaje de la base de datos
+    const mensajeBD = await this.findMessageById(mensaje.id);
 
     for (const clienteId of clienteIds) {
       const clienteSocket = this.clientesWebSocket.get(clienteId);
 
       if (clienteSocket?.connected) {
-        clienteSocket.emit('nuevoMensaje', mensaje);
+        clienteSocket.emit('nuevoMensaje', mensajeBD);
       }
     }
   }

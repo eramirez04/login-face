@@ -16,9 +16,7 @@ export class AuthController {
     return login;
   }
 
-
-
-  @UseGuards(AuthGuard)
+  //@UseGuards(AuthGuard)
   @Post('crear')
   public nose(@Body() body: CreateAuthDto) {
     return body;
