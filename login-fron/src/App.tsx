@@ -10,7 +10,7 @@ import {ModalProvider} from "./context/ModalContext.tsx";
 
 export const App = () => {
     return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider    client={queryClient}>
             <HeroUIProvider>
                 <ProviderContext>
                     <ModalProvider>

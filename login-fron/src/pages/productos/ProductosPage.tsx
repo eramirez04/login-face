@@ -1,60 +1,54 @@
-import {Link} from "react-router-dom";
+import {useState, ChangeEvent, useEffect} from "react";
 import {useProductos} from "../../hooks/productos.hooks.ts";
 // componentes
-import {Card, Image, CardFooter, Button, Skeleton} from "@heroui/react";
-
+import { Button, Input} from "@heroui/react";
+import {Search} from "lucide-react";
+import {ListaProductos} from "../../components/productos/listaProductos.tsx";
 
 export const ProductosPage  =() => {
-    const { data: productosData, isLoading } = useProductos();
+    const [filters, setFilters] = useState<{ search: string; category: string; brand: string }>({ search: '', category: '', brand: '' });
+    const [debouncedSearch, setDebouncedSearch] = useState(filters.search);
 
 
-    if(isLoading) {
-        return (
-            <Card className="w-full h-screen space-y-5 p-4 animate-pulse" radius="lg">
-                {/* Título de la lista */}
-                <Skeleton className="w-1/3 h-6 rounded-lg bg-gray-300" />
+    const { data: productosData, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useProductos({
+        ...filters,
+        search: debouncedSearch
+    });
 
-                {/* Lista de productos en grid */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {[...Array(8)].map((_, index) => (
-                        <div key={index} className="space-y-3">
-                            {/* Imagen del producto */}
-                            <Skeleton className="w-full h-40 rounded-lg bg-gray-300" />
-                            {/* Nombre del producto */}
-                            <Skeleton className="w-3/4 h-5 rounded-lg bg-gray-300" />
-                            {/* Precio */}
-                            <Skeleton className="w-1/2 h-4 rounded-lg bg-gray-400" />
-                        </div>
-                    ))}
-                </div>
-            </Card>
-        );
-    }
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedSearch(filters.search);
+        }, 500);
 
+        return () => clearTimeout(timeout);
+    }, [filters.search]);
+
+
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        setFilters((prev) => ({ ...prev, search: e.target.value }));
+    };
 
     return (
         <>
             <h2 className="text-3xl font-bold underline ">Lista de productos a la venta</h2>
-            <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
-                {productosData?.map((producto) => (
-                    <Card key={producto.id} className="p-2">
-                        <div className="flex justify-between p-2">
-                            <Image
-                                alt={producto.url}
-                                className="w-32 h-32 object-cover rounded-lg shadow-lg"
-                                src={`https://picsum.photos/300?random=${producto.id || Math.random()}`}
-                            />
+            <div className="size-44 w-full bg-gray-200 p-10">
+                <Input variant="underlined" label="Buscar producto" endContent={<Search  />} onChange={handleSearch} />
+            </div>
+            <div className="">
+                {productosData?.pages.map((page) =>
+                    <ListaProductos productos={page.data} isLoading={isLoading} />
+                )}
 
-                            <Button><Link className="flex justify-center items-center w-full h-full" to={`/producto/${producto.id}`} >ir</Link></Button>
-                        </div>
-
-                        <CardFooter className="text-small justify-between">
-                            <p>{producto.id}</p>
-                            <b>{producto.nombre}</b>
-                            <p className="text-default-500">{producto.precio}</p>
-                        </CardFooter>
-                    </Card>
-                ))}
+                {hasNextPage && (
+                    <div className="col-span-2 sm:col-span-1 flex justify-center my-4">
+                        <Button
+                            onPress={() => fetchNextPage()}
+                            isLoading={isFetchingNextPage}
+                        >
+                            Cargar más productos
+                        </Button>
+                    </div>
+                )}
             </div>
         </>
     );
